@@ -140,7 +140,8 @@ class BaesQrScreen extends StatelessWidget {
               onTap: () => context.push('/profile'),
               child: const CircleAvatar(
                 radius: 18,
-                backgroundImage: NetworkImage('https://i.pravatar.cc/150?u=camila'),
+                backgroundColor: AppColors.background,
+                child: Icon(Icons.person, color: AppColors.primaryBlue, size: 20),
               ),
             ),
           ),

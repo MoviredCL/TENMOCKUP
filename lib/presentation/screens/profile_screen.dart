@@ -17,20 +17,30 @@ class ProfileScreen extends StatelessWidget {
           ),
           title: const Text('Mi Perfil'),
           elevation: 0,
-          bottom: const TabBar(
+          bottom: TabBar(
             indicatorColor: AppColors.primaryBlue,
             indicatorWeight: 3,
             labelColor: AppColors.primaryBlue,
             unselectedLabelColor: AppColors.textTertiary,
             labelStyle: TextStyle(fontWeight: FontWeight.w900, fontSize: 13, letterSpacing: 0.5),
             tabs: [
-              Tab(text: "MI INFORMACIÓN", icon: Icon(Icons.person_outline, size: 20)),
+              const Tab(text: "MI INFORMACIÓN", icon: Icon(Icons.person_outline, size: 20)),
               Tab(
                 text: "NOTIFICACIONES", 
-                icon: Badge(
-                  label: Text('3'),
-                  backgroundColor: AppColors.secondaryRed,
-                  child: Icon(Icons.notifications_none_rounded, size: 20),
+                icon: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    const Icon(Icons.notifications_none_rounded, size: 20),
+                    Positioned(
+                      right: -8,
+                      top: -2,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(color: AppColors.secondaryRed, shape: BoxShape.circle),
+                        child: const Text('3', style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -70,7 +80,7 @@ class ProfileScreen extends StatelessWidget {
                           width: 2,
                         ),
                       ),
-                      child: const CircleAvatar(
+                      child: CircleAvatar(
                         radius: 54,
                         backgroundColor: AppColors.background,
                         child: Icon(
