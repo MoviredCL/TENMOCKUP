@@ -5,6 +5,184 @@ import 'package:tneapp/config/constants/colores.dart';
 class ApplicationsScreen extends StatelessWidget {
   const ApplicationsScreen({super.key});
 
+  void _showBenefitDetails(
+    BuildContext context,
+    String title,
+    String status,
+    Color statusColor,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder:
+          (context) => Container(
+            height: MediaQuery.of(context).size.height * 0.75,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+            ),
+            child: Column(
+              children: [
+                const SizedBox(height: 12),
+                Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: AppColors.border,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    title,
+                                    style: const TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w900,
+                                      color: AppColors.textMain,
+                                    ),
+                                  ),
+                                  const Text(
+                                    'Detalles del beneficio otorgado',
+                                    style: TextStyle(
+                                      color: AppColors.textSecondary,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 6,
+                              ),
+                              decoration: BoxDecoration(
+                                color: statusColor.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                status,
+                                style: TextStyle(
+                                  color: statusColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 11,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 32),
+                        _buildDetailSection(
+                          icon: Icons.payments_outlined,
+                          title: 'Monto y Cobertura',
+                          content:
+                              title == 'Beca Bicentenario'
+                                  ? 'Financia el 100% del arancel de referencia anual de la carrera. Se renueva anualmente según rendimiento académico.'
+                                  : (title == 'Beca de alimentación'
+                                      ? 'Asignación mensual de \$48.000 para compra de alimentos en comercios asociados.'
+                                      : 'Asignación mensual de \$123.000 (pagado en 10 cuotas anuales) para libre disposición del estudiante.'),
+                        ),
+                        const SizedBox(height: 24),
+                        _buildDetailSection(
+                          icon: Icons.calendar_today_outlined,
+                          title: 'Calendario de Pagos',
+                          content:
+                              title == 'Beca Bicentenario'
+                                  ? 'Transferencia directa a la Universidad en dos cuotas (Semestre 1: Mayo, Semestre 2: Octubre).'
+                                  : (title == 'Beca de alimentación'
+                                      ? 'Carga automática el primer día de cada mes. El saldo vence el día 05 del mes siguiente.'
+                                      : 'Depósito en CuentaRUT el día 05 de cada mes, entre los meses de Marzo y Diciembre.'),
+                        ),
+                        const SizedBox(height: 24),
+                        _buildDetailSection(
+                          icon: Icons.assignment_turned_in_outlined,
+                          title: 'Requisitos de Mantención',
+                          content:
+                              title == 'Beca de alimentación'
+                                  ? '• Mantener calidad de alumno regular.\n• Pertenecer al 60% más vulnerable (RSH).\n• Utilizar el saldo antes de su vencimiento mensual.'
+                                  : '• Mantener calidad de alumno regular.\n• Promedio de notas superior a 5.0.\n• No exceder la duración formal de la carrera.',
+                        ),
+                        const SizedBox(height: 40),
+                        ElevatedButton(
+                          onPressed: () => Navigator.pop(context),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryBlue,
+                            foregroundColor: Colors.white,
+                            minimumSize: const Size(double.infinity, 56),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                          child: const Text(
+                            'ENTENDIDO',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: 1.0,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+    );
+  }
+
+  Widget _buildDetailSection({
+    required IconData icon,
+    required String title,
+    required String content,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(icon, size: 20, color: AppColors.primaryBlue),
+            const SizedBox(width: 12),
+            Text(
+              title,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: AppColors.background,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Text(
+            content,
+            style: const TextStyle(
+              color: AppColors.textMain,
+              height: 1.5,
+              fontSize: 13,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +195,12 @@ class ApplicationsScreen extends StatelessWidget {
               onTap: () => context.push('/profile'),
               child: const CircleAvatar(
                 radius: 18,
-                backgroundImage: NetworkImage('https://i.pravatar.cc/150?u=camila'),
+                backgroundColor: AppColors.background,
+                child: Icon(
+                  Icons.person,
+                  color: AppColors.primaryBlue,
+                  size: 20,
+                ),
               ),
             ),
           ),
@@ -30,142 +213,94 @@ class ApplicationsScreen extends StatelessWidget {
           children: [
             const Text(
               'Postulación y Resultados',
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: AppColors.textMain),
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w900,
+                color: AppColors.textMain,
+                letterSpacing: -0.5,
+              ),
             ),
             const Text(
-              'Revisa el estado de tus beneficios y las fechas clave del proceso.',
+              'Gestiona tus beneficios y revisa fechas clave.',
               style: TextStyle(color: AppColors.textSecondary),
             ),
             const SizedBox(height: 24),
 
-            // Warning Banner
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppColors.tertiaryYellow,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Icon(Icons.campaign, color: Colors.black, size: 24),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'AVISO IMPORTANTE',
-                          style: TextStyle(fontWeight: FontWeight.w900, fontSize: 11),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'El periodo principal de postulación para el próximo año académico se encuentra activo durante los meses de Diciembre y Enero. Asegúrate de completar tus antecedentes a tiempo.',
-                          style: TextStyle(fontSize: 12, color: Colors.black.withOpacity(0.8), height: 1.4),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 24),
-
-            // Current Status Card
+            // Catalogue Button Card
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.white,
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF0038A8), Color(0xFF001D4A)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: AppColors.border),
-                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10)],
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF0038A8).withOpacity(0.3),
+                    blurRadius: 12,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Estado Actual',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: AppColors.textMain),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white24,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(
+                          Icons.auto_stories_outlined,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      const Expanded(
+                        child: Text(
+                          'Catálogo de Becas',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  const Text('Beca Bicentenario', style: TextStyle(color: AppColors.textSecondary)),
-                  const SizedBox(height: 12),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF0038A8),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        CircleAvatar(radius: 3, backgroundColor: Colors.white),
-                        SizedBox(width: 8),
-                        Text('En Evaluación', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 11)),
-                      ],
+                  const SizedBox(height: 16),
+                  const Text(
+                    '¿No sabes a qué beca postular? Explora todos los beneficios disponibles para tu nivel académico.',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 13,
+                      height: 1.4,
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF1F5F9),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Tu postulación ha sido recibida y se encuentra actualmente en proceso de revisión socioeconómica por el ministerio. Te notificaremos si requerimos información adicional.',
-                          style: TextStyle(fontSize: 13, height: 1.5, color: AppColors.textMain.withOpacity(0.8)),
-                        ),
-                        const SizedBox(height: 16),
-                        const Row(
-                          children: [
-                            Icon(Icons.history, size: 14, color: AppColors.textTertiary),
-                            SizedBox(width: 8),
-                            Text('Última actualización: 15 Dic, 14:30 hrs', style: TextStyle(fontSize: 11, color: AppColors.textTertiary)),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            // Help Banner
-            Container(
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                color: const Color(0xFF002271),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                children: [
-                  const Icon(Icons.headset_mic_outlined, color: Colors.white, size: 32),
-                  const SizedBox(height: 12),
-                  const Text(
-                    '¿Necesitas ayuda?',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 18),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Contacta a nuestro Call Center para resolver tus dudas de postulación.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 12),
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(Icons.phone_outlined, size: 18),
-                    label: const Text('600 6600 400'),
+                  ElevatedButton(
+                    onPressed: () => context.push('/benefits'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      foregroundColor: const Color(0xFF002271),
+                      foregroundColor: AppColors.primaryBlue,
                       minimumSize: const Size(double.infinity, 50),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Text(
+                      'VER CATÁLOGO',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 13,
+                        letterSpacing: 1.0,
+                      ),
                     ),
                   ),
                 ],
@@ -173,102 +308,360 @@ class ApplicationsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 32),
 
-            // Results Dates Card
+            // Scholarships Status Section
+            const Text(
+              'Mis Beneficios Activos',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w900,
+                color: AppColors.textMain,
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // Scholarship 1: In Process
+            _ScholarshipCard(
+              title: 'Beca Bicentenario',
+              folio: '#458293',
+              status: 'EN PROCESO',
+              statusColor: Colors.blue,
+              progress: 0.6,
+              onTap:
+                  () => _showBenefitDetails(
+                    context,
+                    'Beca Bicentenario',
+                    'EN PROCESO',
+                    Colors.blue,
+                  ),
+            ),
+            const SizedBox(height: 16),
+
+            // Scholarship 2: Accepted
+            _ScholarshipCard(
+              title: 'Beca Residencia Indígena',
+              folio: '#459012',
+              status: 'APROBADA',
+              statusColor: Colors.green,
+              progress: 1.0,
+              onTap:
+                  () => _showBenefitDetails(
+                    context,
+                    'Beca Residencia Indígena',
+                    'APROBADA',
+                    Colors.green,
+                  ),
+            ),
+            const SizedBox(height: 16),
+
+            // Scholarship 3: BAES
+            _ScholarshipCard(
+              title: 'Beca de alimentación',
+              folio: '#460221',
+              status: 'APROBADA',
+              statusColor: Colors.green,
+              progress: 1.0,
+              onTap:
+                  () => _showBenefitDetails(
+                    context,
+                    'Beca de alimentación',
+                    'APROBADA',
+                    Colors.green,
+                  ),
+            ),
+
+            const SizedBox(height: 32),
+
+            // Illustrated Timeline
+            const Text(
+              'Cronograma de Resultados',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w900,
+                color: AppColors.textMain,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Fechas clave para la asignación de beneficios 2024.',
+              style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
+            ),
+            const SizedBox(height: 24),
+
             Container(
-              width: double.infinity,
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: AppColors.border),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: const Column(
                 children: [
-                  const Row(
-                    children: [
-                      Icon(Icons.calendar_month_outlined, color: Color(0xFF002271)),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          'Fechas de Publicación de Resultados',
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: AppColors.textMain),
-                        ),
-                      ),
-                    ],
+                  _TimelineItem(
+                    day: '06',
+                    month: 'MAR',
+                    title: '1ª Asignación',
+                    subtitle:
+                        'Resultados alumnos renovantes y primer grupo nuevos.',
+                    isLast: false,
+                    isCompleted: true,
                   ),
-                  const SizedBox(height: 32),
-                  _DateItem(day: '06', month: 'Marzo', label: 'Primera Asignación', isFirst: true),
-                  _DateItem(day: '08', month: 'Abril', label: 'Segunda Asignación'),
-                  _DateItem(day: '08', month: 'Mayo', label: 'Apelaciones I'),
-                  _DateItem(day: '05', month: 'Junio', label: 'Tercera Asignación'),
-                  _DateItem(day: '07', month: 'Julio', label: 'Apelaciones II'),
+                  _TimelineItem(
+                    day: '08',
+                    month: 'ABR',
+                    title: '2ª Asignación',
+                    subtitle: 'Publicación segundo grupo de pre-seleccionados.',
+                    isLast: false,
+                    isActive: true,
+                  ),
+                  _TimelineItem(
+                    day: '08',
+                    month: 'MAY',
+                    title: 'Período Apelaciones',
+                    subtitle: 'Inicio de proceso para rectificar antecedentes.',
+                    isLast: false,
+                  ),
+                  _TimelineItem(
+                    day: '05',
+                    month: 'JUN',
+                    title: 'Resultados Finales',
+                    subtitle: 'Cierre de proceso de asignación 2024.',
+                    isLast: true,
+                  ),
                 ],
               ),
             ),
+
             const SizedBox(height: 100),
           ],
         ),
       ),
-      bottomNavigationBar: _CustomBottomNav(),
+      bottomNavigationBar: const _CustomBottomNav(),
     );
   }
 }
 
-class _DateItem extends StatelessWidget {
-  final String day;
-  final String month;
-  final String label;
-  final bool isFirst;
+class _ScholarshipCard extends StatelessWidget {
+  final String title;
+  final String folio;
+  final String status;
+  final Color statusColor;
+  final double progress;
+  final VoidCallback onTap;
 
-  const _DateItem({required this.day, required this.month, required this.label, this.isFirst = false});
+  const _ScholarshipCard({
+    required this.title,
+    required this.folio,
+    required this.status,
+    required this.statusColor,
+    required this.progress,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF1F5F9),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(label, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppColors.textTertiary)),
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: isFirst ? const Color(0xFF002271) : const Color(0xFFF1F5F9),
-                  shape: BoxShape.circle,
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.border),
+          boxShadow: [
+            BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        'Folio: $folio',
+                        style: const TextStyle(
+                          color: AppColors.textSecondary,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                child: Center(
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: statusColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                   child: Text(
-                    day,
+                    status,
                     style: TextStyle(
-                      color: isFirst ? Colors.white : AppColors.textMain,
-                      fontWeight: FontWeight.w900,
-                      fontSize: 18,
+                      color: statusColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10,
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 16),
-              Text(
-                month,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: isFirst ? const Color(0xFF002271) : AppColors.textMain,
+              ],
+            ),
+            const SizedBox(height: 20),
+            LinearProgressIndicator(
+              value: progress,
+              backgroundColor: const Color(0xFFF1F5F9),
+              valueColor: AlwaysStoppedAnimation<Color>(statusColor),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              minHeight: 8,
+            ),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Ver detalles del beneficio',
+                  style: TextStyle(fontSize: 11, color: AppColors.textTertiary),
                 ),
+                Icon(Icons.arrow_forward_ios, size: 12, color: statusColor),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _TimelineItem extends StatelessWidget {
+  final String day;
+  final String month;
+  final String title;
+  final String subtitle;
+  final bool isLast;
+  final bool isCompleted;
+  final bool isActive;
+
+  const _TimelineItem({
+    required this.day,
+    required this.month,
+    required this.title,
+    required this.subtitle,
+    this.isLast = false,
+    this.isCompleted = false,
+    this.isActive = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 50,
+            child: Column(
+              children: [
+                Text(
+                  day,
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                    color:
+                        isActive ? AppColors.primaryBlue : AppColors.textMain,
+                  ),
+                ),
+                Text(
+                  month,
+                  style: const TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textTertiary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 16),
+          Column(
+            children: [
+              Container(
+                width: 16,
+                height: 16,
+                decoration: BoxDecoration(
+                  color:
+                      isCompleted
+                          ? Colors.green
+                          : (isActive ? AppColors.primaryBlue : Colors.white),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color:
+                        isCompleted
+                            ? Colors.green
+                            : (isActive
+                                ? AppColors.primaryBlue
+                                : AppColors.border),
+                    width: 2,
+                  ),
+                ),
+                child:
+                    isCompleted
+                        ? const Icon(Icons.check, size: 10, color: Colors.white)
+                        : null,
               ),
+              if (!isLast)
+                Expanded(
+                  child: Container(
+                    width: 2,
+                    color:
+                        isCompleted
+                            ? Colors.green.withOpacity(0.5)
+                            : AppColors.border,
+                  ),
+                ),
             ],
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color:
+                          isActive ? AppColors.primaryBlue : AppColors.textMain,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.textSecondary,
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
@@ -277,20 +670,39 @@ class _DateItem extends StatelessWidget {
 }
 
 class _CustomBottomNav extends StatelessWidget {
+  const _CustomBottomNav();
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 90,
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(top: BorderSide(color: AppColors.border.withOpacity(0.5))),
+        border: Border(
+          top: BorderSide(color: AppColors.border.withOpacity(0.5)),
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _NavItem(icon: Icons.home_filled, label: 'Inicio', isActive: false, onTap: () => context.go('/home')),
-          _NavItem(icon: Icons.qr_code_scanner, label: 'TNE', isActive: false, onTap: () => context.push('/recharge')),
-          _NavItem(icon: Icons.restaurant_menu, label: 'BAES', isActive: false, onTap: () => context.push('/baes-qr')),
+          _NavItem(
+            icon: Icons.home_filled,
+            label: 'Inicio',
+            isActive: false,
+            onTap: () => context.go('/home'),
+          ),
+          _NavItem(
+            icon: Icons.qr_code_scanner,
+            label: 'TNE',
+            isActive: false,
+            onTap: () => context.go('/tne-module'),
+          ),
+          _NavItem(
+            icon: Icons.restaurant_menu,
+            label: 'BAES',
+            isActive: false,
+            onTap: () => context.go('/baes-qr'),
+          ),
           _NavItem(icon: Icons.school, label: 'Becas', isActive: true),
         ],
       ),
@@ -304,7 +716,12 @@ class _NavItem extends StatelessWidget {
   final bool isActive;
   final VoidCallback? onTap;
 
-  const _NavItem({required this.icon, required this.label, required this.isActive, this.onTap});
+  const _NavItem({
+    required this.icon,
+    required this.label,
+    required this.isActive,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -319,7 +736,10 @@ class _NavItem extends StatelessWidget {
               color: isActive ? AppColors.primaryBlue : Colors.transparent,
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Icon(icon, color: isActive ? Colors.white : AppColors.textTertiary),
+            child: Icon(
+              icon,
+              color: isActive ? Colors.white : AppColors.textTertiary,
+            ),
           ),
           const SizedBox(height: 4),
           Text(

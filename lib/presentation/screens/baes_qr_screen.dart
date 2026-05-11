@@ -385,9 +385,9 @@ class _CustomBottomNav extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _NavItem(icon: Icons.home_filled, label: 'Inicio', isActive: false, onTap: () => context.go('/home')),
-          _NavItem(icon: Icons.qr_code_scanner, label: 'TNE', isActive: false, onTap: () => context.push('/tne-module')),
+          _NavItem(icon: Icons.qr_code_scanner, label: 'TNE', isActive: false, onTap: () => context.go('/tne-module')),
           _NavItem(icon: Icons.restaurant_menu, label: 'BAES', isActive: true),
-          _NavItem(icon: Icons.school, label: 'Becas', isActive: false, onTap: () => context.push('/applications')),
+          _NavItem(icon: Icons.school, label: 'Becas', isActive: false, onTap: () => context.go('/applications')),
         ],
       ),
     );
