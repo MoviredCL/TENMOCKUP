@@ -12,6 +12,8 @@ import 'package:tneapp/presentation/screens/profile_detail_screens.dart';
 import 'package:tneapp/presentation/screens/movements_screen.dart';
 import 'package:tneapp/presentation/screens/baes_movements_screen.dart';
 import 'package:tneapp/presentation/screens/profile_sync_screen.dart';
+import 'package:tneapp/presentation/screens/scholarship_application_screen.dart';
+import 'package:tneapp/presentation/screens/application_success_screen.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/login',
@@ -136,6 +138,29 @@ final appRouter = GoRouter(
           builder: (context, state) => const PinScreen(),
         ),
       ],
+    ),
+    GoRoute(
+      path: '/scholarship-application',
+      pageBuilder: (context, state) {
+        final scholarshipName = state.extra as String? ?? 'Beca';
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: ScholarshipApplicationScreen(scholarshipName: scholarshipName),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        );
+      },
+    ),
+    GoRoute(
+      path: '/application-success',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const ApplicationSuccessScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
     ),
   ],
 );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tneapp/config/constants/colores.dart';
 
 class ProfileSyncScreen extends StatelessWidget {
@@ -313,7 +314,7 @@ class _CompatibleBecaItem extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () => context.push('/scholarship-application', extra: title),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryBlue,
                 foregroundColor: Colors.white,

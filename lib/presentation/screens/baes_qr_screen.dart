@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -132,24 +133,36 @@ class BaesQrScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Image.asset('assets/images/logo-junaeb.webp', height: 32),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: InkWell(
-              onTap: () => context.push('/profile'),
-              child: CircleAvatar(
-                radius: 18,
-                backgroundImage: const AssetImage('assets/images/user_profile.png'),
-                backgroundColor: AppColors.background,
-              ),
+      extendBodyBehindAppBar: true,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: AppBar(
+              backgroundColor: Colors.white.withOpacity(0.7),
+              elevation: 0,
+              scrolledUnderElevation: 0,
+              title: Image.asset('assets/images/logo-junaeb.webp', height: 32),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 16.0),
+                  child: InkWell(
+                    onTap: () => context.push('/profile'),
+                    child: CircleAvatar(
+                      radius: 18,
+                      backgroundImage: const AssetImage('assets/images/user_profile.png'),
+                      backgroundColor: AppColors.background,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.fromLTRB(20, kToolbarHeight + 80, 20, 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
