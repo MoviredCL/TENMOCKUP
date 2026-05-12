@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -138,10 +139,10 @@ class BaesQrScreen extends StatelessWidget {
             padding: const EdgeInsets.only(right: 16.0),
             child: InkWell(
               onTap: () => context.push('/profile'),
-              child: const CircleAvatar(
+              child: CircleAvatar(
                 radius: 18,
+                backgroundImage: const AssetImage('assets/images/user_profile.png'),
                 backgroundColor: AppColors.background,
-                child: Icon(Icons.person, color: AppColors.primaryBlue, size: 20),
               ),
             ),
           ),
@@ -173,52 +174,94 @@ class BaesQrScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
 
-            // Main Balance Card
+            // Main BAES Card (Matched with TNE Design)
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: const Color(0xFFF8FAFC),
                 borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: AppColors.border),
-                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10)],
+                image: DecorationImage(
+                  image: const AssetImage('assets/images/baes_card_bg.png'),
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.4),
+                    BlendMode.darken,
+                  ),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 15,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
               ),
               child: Column(
                 children: [
-                  const Text(
-                    '\$48.000',
-                    style: TextStyle(fontSize: 48, fontWeight: FontWeight.w900, color: AppColors.textMain),
-                  ),
-                  const Text('SALDO DISPONIBLE MAYO', style: TextStyle(color: AppColors.textTertiary, fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1.1)),
-                  const SizedBox(height: 32),
-
-                  // QR Button/Preview
-                  InkWell(
-                    onTap: () {
-                      // Maybe open full screen QR
-                    },
-                    child: Container(
-                      width: 160,
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 8)],
-                      ),
-                      child: Column(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Image.asset('assets/images/qr.png', height: 110),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(20)),
+                            child: const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                CircleAvatar(radius: 4, backgroundColor: Colors.green),
+                                SizedBox(width: 6),
+                                Text('ACTIVA', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 10)),
+                              ],
+                            ),
+                          ),
                           const SizedBox(height: 12),
-                          const Text('PAGAR CON QR', style: TextStyle(fontWeight: FontWeight.w900, color: AppColors.primaryBlue, fontSize: 10, letterSpacing: 0.8)),
+                          const Text('Beca de Alimentación', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
                         ],
                       ),
-                    ),
+                      Container(
+                        width: 50,
+                        height: 60,
+                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: Colors.white, width: 2)),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: const Image(
+                            image: AssetImage('assets/images/user_profile.png'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 24),
-                  const Text(
-                    'Acércate al lector de caja y escanea para pagar tu consumo.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                  
+                  // Balance Section (No recharge button)
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(color: Colors.white.withOpacity(0.1), borderRadius: BorderRadius.circular(16)),
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('SALDO DISPONIBLE MAYO', style: TextStyle(color: Colors.white70, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
+                        Text('\$48.000', style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w900)),
+                      ],
+                    ),
+                  ),
+                  
+                  const SizedBox(height: 24),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16)),
+                    child: Column(
+                      children: [
+                        Image.asset('assets/images/qr.png', height: 130),
+                        const SizedBox(height: 12),
+                        const Text('PAGAR EN CAJA', style: TextStyle(fontWeight: FontWeight.w900, color: AppColors.primaryBlue, fontSize: 11, letterSpacing: 1.0)),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -226,14 +269,24 @@ class BaesQrScreen extends StatelessWidget {
             const SizedBox(height: 32),
 
             // Historial de Transacciones
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'Últimas Compras',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: AppColors.textMain),
                 ),
-                Text('Ver todo', style: TextStyle(color: AppColors.primaryBlue, fontWeight: FontWeight.bold, fontSize: 13)),
+                InkWell(
+                  onTap: () => context.push('/baes-movements'),
+                  child: const Text(
+                    'Ver todo',
+                    style: TextStyle(
+                      color: AppColors.primaryBlue,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 16),

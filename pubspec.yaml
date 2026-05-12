@@ -59,22 +59,7 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-   - assets/images/logo-junaeb.webp
-   - assets/images/clave.svg
-   - assets/images/logo.png
-   - assets/images/appbar.png
-   - assets/images/icono_clave_unica.png
-   - assets/images/branding.png
-   - assets/images/branding2.png
-   - assets/images/imagen_clave_unica.png
-   - assets/images/icono_wallet.png
-   - assets/images/tarjeta_tne.png
-   - assets/images/tne_qr.png
-   - assets/images/qr.png
-   - assets/images/boton_atras.png
-   - assets/images/boton_icono.png
-   - assets/images/tne-card-1.png
-   - assets/images/tne-card-2.png
+    - assets/images/
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tneapp/config/constants/colores.dart';
@@ -80,15 +81,11 @@ class ProfileScreen extends StatelessWidget {
                           width: 2,
                         ),
                       ),
-                      child: CircleAvatar(
-                        radius: 54,
-                        backgroundColor: AppColors.background,
-                        child: Icon(
-                          Icons.person_rounded,
-                          size: 60,
-                          color: AppColors.primaryBlue,
+                        child: CircleAvatar(
+                          radius: 54,
+                          backgroundImage: const AssetImage('assets/images/user_profile.png'),
+                          backgroundColor: AppColors.background,
                         ),
-                      ),
                     ),
                     Positioned(
                       bottom: 4,
@@ -135,12 +132,17 @@ class ProfileScreen extends StatelessWidget {
             _buildSettingsTile(
               icon: Icons.person_outline,
               label: "Mis Datos Personales",
-              onTap: () {},
+              onTap: () => context.push('/profile/personal-data'),
             ),
             _buildSettingsTile(
               icon: Icons.security_outlined,
-              label: "Seguridad y PIN",
-              onTap: () {},
+              label: "Seguridad",
+              onTap: () => context.push('/profile/security'),
+            ),
+            _buildSettingsTile(
+              icon: Icons.lock_outline,
+              label: "PIN de Seguridad",
+              onTap: () => context.push('/profile/pin'),
             ),
           ]),
 
@@ -171,7 +173,7 @@ class ProfileScreen extends StatelessWidget {
             _buildSettingsTile(
               icon: Icons.handshake_outlined,
               label: "Convenios JUNAEB",
-              onTap: () {},
+              onTap: () => _showConveniosModal(context),
             ),
           ]),
 
@@ -374,6 +376,105 @@ class ProfileScreen extends StatelessWidget {
               Text(label, style: const TextStyle(fontSize: 11, color: AppColors.textTertiary, fontWeight: FontWeight.bold)),
               Text(value, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: isStatus ? Colors.green[700] : AppColors.textMain)),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showConveniosModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height * 0.8,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+        ),
+        child: Column(
+          children: [
+            const SizedBox(height: 12),
+            Container(width: 40, height: 4, decoration: BoxDecoration(color: AppColors.border, borderRadius: BorderRadius.circular(2))),
+            const SizedBox(height: 24),
+            const Text("Convenios y Ofertas", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: AppColors.textMain)),
+            const Text("Descuentos exclusivos para estudiantes", style: TextStyle(color: AppColors.textSecondary, fontSize: 14)),
+            const SizedBox(height: 24),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                children: [
+                  _buildConvenioCard(
+                    title: "Cine Hoyts / Cinemark",
+                    category: "CINE",
+                    imagePath: "assets/images/cinema_banner.png",
+                    description: "2x1 en entradas y combos seleccionados",
+                  ),
+                  _buildConvenioCard(
+                    title: "Librerías Nacional",
+                    category: "CULTURA",
+                    imagePath: "assets/images/library_banner.png",
+                    description: "15% de dcto en toda la tienda",
+                  ),
+                  _buildConvenioCard(
+                    title: "Teatro Municipal",
+                    category: "ARTE",
+                    imagePath: "assets/images/culture_banner.png",
+                    description: "Entrada gratuita a museos nacionales y galerías de arte adheridas.",
+                  ),
+                  const SizedBox(height: 40),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildConvenioCard({required String title, required String category, required String imagePath, required String description}) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.border),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+            child: Image.asset(
+              imagePath,
+              height: 160,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Container(
+                height: 160,
+                color: AppColors.background,
+                child: const Icon(Icons.image_outlined, color: AppColors.textTertiary, size: 40),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(color: AppColors.primaryBlue.withOpacity(0.1), borderRadius: BorderRadius.circular(6)),
+                  child: Text(category, style: const TextStyle(color: AppColors.primaryBlue, fontSize: 10, fontWeight: FontWeight.bold)),
+                ),
+                const SizedBox(height: 12),
+                Text(title, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 18, color: AppColors.textMain)),
+                const SizedBox(height: 6),
+                Text(description, style: const TextStyle(color: AppColors.textSecondary, fontSize: 13, height: 1.4)),
+              ],
+            ),
           ),
         ],
       ),

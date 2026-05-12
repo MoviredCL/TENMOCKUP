@@ -5,6 +5,102 @@ import 'package:tneapp/config/constants/colores.dart';
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
+  void _showClaveUnicaModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+      ),
+      builder: (modalContext) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(modalContext).viewInsets.bottom,
+        ),
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(32),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Ingresa con tu ClaveÚnica',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textMain,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  'Para validar tu identidad de forma segura.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: AppColors.textSecondary),
+                ),
+                const SizedBox(height: 32),
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(modalContext); // Close modal
+                    _showLoadingAndNavigate(context); // Use outer valid context
+                  },
+                  child: Image.asset(
+                    'assets/images/imagen_clave_unica.png',
+                    width: double.infinity,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                const SizedBox(height: 32),
+                TextButton(
+                  onPressed: () => Navigator.pop(modalContext),
+                  child: const Text(
+                    'Cancelar',
+                    style: TextStyle(color: AppColors.textTertiary, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showLoadingAndNavigate(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      barrierColor: Colors.white,
+      builder: (context) => const Material(
+        color: Colors.white,
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(color: AppColors.primaryBlue),
+              SizedBox(height: 24),
+              Text(
+                'Autenticando...',
+                style: TextStyle(
+                  color: AppColors.primaryBlue,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 18,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    // Use a slightly longer delay to ensure the dialog is fully shown
+    Future.delayed(const Duration(milliseconds: 1200), () {
+      if (context.mounted) {
+        // Go directly to home, which should clear all overlays in the current navigator
+        context.go('/home');
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +158,7 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 40),
               // ClaveUnica Button
               OutlinedButton(
-                onPressed: () {},
+                onPressed: () => _showClaveUnicaModal(context),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -105,9 +201,9 @@ class LoginScreen extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
               ),
               const SizedBox(height: 8),
-              TextField(
+              const TextField(
                 decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.person_outline, color: AppColors.textTertiary),
+                  prefixIcon: Icon(Icons.person_outline, color: AppColors.textTertiary),
                   hintText: '12.345.678-9',
                 ),
               ),
@@ -138,11 +234,11 @@ class LoginScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 8),
-              TextField(
+              const TextField(
                 obscureText: true,
                 decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.lock_outline, color: AppColors.textTertiary),
-                  suffixIcon: const Icon(Icons.visibility_off_outlined, color: AppColors.textTertiary),
+                  prefixIcon: Icon(Icons.lock_outline, color: AppColors.textTertiary),
+                  suffixIcon: Icon(Icons.visibility_off_outlined, color: AppColors.textTertiary),
                   hintText: '••••••••',
                 ),
               ),

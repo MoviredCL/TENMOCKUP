@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tneapp/config/constants/colores.dart';
@@ -193,14 +194,12 @@ class ApplicationsScreen extends StatelessWidget {
             padding: const EdgeInsets.only(right: 16.0),
             child: InkWell(
               onTap: () => context.push('/profile'),
-              child: const CircleAvatar(
+              child: CircleAvatar(
                 radius: 18,
-                backgroundColor: AppColors.background,
-                child: Icon(
-                  Icons.person,
-                  color: AppColors.primaryBlue,
-                  size: 20,
+                backgroundImage: const AssetImage(
+                  'assets/images/user_profile.png',
                 ),
+                backgroundColor: AppColors.background,
               ),
             ),
           ),
@@ -334,23 +333,7 @@ class ApplicationsScreen extends StatelessWidget {
                     Colors.blue,
                   ),
             ),
-            const SizedBox(height: 16),
 
-            // Scholarship 2: Accepted
-            _ScholarshipCard(
-              title: 'Beca Residencia Indígena',
-              folio: '#459012',
-              status: 'APROBADA',
-              statusColor: Colors.green,
-              progress: 1.0,
-              onTap:
-                  () => _showBenefitDetails(
-                    context,
-                    'Beca Residencia Indígena',
-                    'APROBADA',
-                    Colors.green,
-                  ),
-            ),
             const SizedBox(height: 16),
 
             // Scholarship 3: BAES
@@ -368,6 +351,25 @@ class ApplicationsScreen extends StatelessWidget {
                     Colors.green,
                   ),
             ),
+
+            const SizedBox(height: 32),
+
+            // Fechas de Postulación Section
+            const Text(
+              'Fechas de Postulación',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w900,
+                color: AppColors.textMain,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Proceso oficial de postulación y renovación 2025.',
+              style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
+            ),
+            const SizedBox(height: 16),
+            const _CalendarSection(),
 
             const SizedBox(height: 32),
 
@@ -424,7 +426,7 @@ class ApplicationsScreen extends StatelessWidget {
                     day: '05',
                     month: 'JUN',
                     title: 'Resultados Finales',
-                    subtitle: 'Cierre de proceso de asignación 2024.',
+                    subtitle: 'Cierre de proceso de asignación 2026.',
                     isLast: true,
                   ),
                 ],
@@ -706,6 +708,175 @@ class _CustomBottomNav extends StatelessWidget {
           _NavItem(icon: Icons.school, label: 'Becas', isActive: true),
         ],
       ),
+    );
+  }
+}
+
+class _CalendarSection extends StatelessWidget {
+  const _CalendarSection();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: AppColors.border),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 15,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppColors.primaryBlue.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(
+                  Icons.calendar_month_rounded,
+                  color: AppColors.primaryBlue,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Período 2026',
+                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
+                  ),
+                  Text(
+                    'Postulación y Renovación',
+                    style: TextStyle(
+                      color: AppColors.textSecondary,
+                      fontSize: 11,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(child: _buildMonthCalendar('Diciembre', 5, 31, 3)),
+              const SizedBox(width: 24),
+              Expanded(child: _buildMonthCalendar('Enero', 1, 31, 2)),
+            ],
+          ),
+          const SizedBox(height: 24),
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF8FAFC),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppColors.border.withOpacity(0.5)),
+            ),
+            child: const Row(
+              children: [
+                Icon(
+                  Icons.info_outline_rounded,
+                  size: 14,
+                  color: AppColors.primaryBlue,
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    'Trámite 100% online en portalbecas.junaeb.cl',
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: AppColors.textSecondary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMonthCalendar(
+    String monthName,
+    int startRange,
+    int endRange,
+    int startDayOfWeek,
+  ) {
+    return Column(
+      children: [
+        Text(
+          monthName,
+          style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 12),
+        ),
+        const SizedBox(height: 12),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children:
+              ['L', 'M', 'M', 'J', 'V', 'S', 'D']
+                  .map(
+                    (d) => SizedBox(
+                      width: 16,
+                      child: Text(
+                        d,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 8,
+                          fontWeight: FontWeight.w900,
+                          color: AppColors.textTertiary,
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 2,
+          runSpacing: 2,
+          children: List.generate(35, (index) {
+            final day = index - startDayOfWeek + 1;
+            final isVisible = day > 0 && day <= 31;
+            final inRange = isVisible && day >= startRange && day <= endRange;
+
+            return Container(
+              width: 18,
+              height: 18,
+              decoration: BoxDecoration(
+                color: inRange ? AppColors.primaryBlue : Colors.transparent,
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Center(
+                child: Text(
+                  isVisible ? day.toString() : '',
+                  style: TextStyle(
+                    fontSize: 8,
+                    fontWeight: inRange ? FontWeight.bold : FontWeight.normal,
+                    color:
+                        isVisible
+                            ? (inRange ? Colors.white : AppColors.textSecondary)
+                            : Colors.transparent,
+                  ),
+                ),
+              ),
+            );
+          }),
+        ),
+      ],
     );
   }
 }

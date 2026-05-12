@@ -32,7 +32,10 @@ class HistorialViajesScreen extends StatelessWidget {
                   ),
                   _buildHeaderButton(
                     imagePath: "assets/images/boton_icono.png",
-                    onPressed: () => context.read<AppBloc>().add(MostrarNotificaciones(estado: true)),
+                    onPressed:
+                        () => context.read<AppBloc>().add(
+                          MostrarNotificaciones(estado: true),
+                        ),
                   ),
                 ],
               ),
@@ -67,7 +70,7 @@ class HistorialViajesScreen extends StatelessWidget {
                     const SizedBox(height: 16),
                     _buildMovementTile(
                       title: "Carga de Saldo",
-                      subtitle: "Webpay Plus",
+                      subtitle: "Movired",
                       amount: 20000,
                       icon: Icons.add_card_rounded,
                       date: "Ayer, 22:00 hrs",
@@ -92,7 +95,10 @@ class HistorialViajesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeaderButton({required String imagePath, required VoidCallback onPressed}) {
+  Widget _buildHeaderButton({
+    required String imagePath,
+    required VoidCallback onPressed,
+  }) {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
@@ -102,7 +108,11 @@ class HistorialViajesScreen extends StatelessWidget {
           color: Colors.white,
           shape: BoxShape.circle,
           boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4)),
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
           ],
         ),
         child: Center(child: Image.asset(imagePath, scale: 1.5)),
@@ -124,7 +134,11 @@ class HistorialViajesScreen extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10, offset: const Offset(0, 4)),
+          BoxShadow(
+            color: Colors.black.withOpacity(0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
         ],
       ),
       child: Row(
@@ -132,10 +146,17 @@ class HistorialViajesScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: isCarga ? Color(successColor).withOpacity(0.1) : Color(primaryColor).withOpacity(0.05),
+              color:
+                  isCarga
+                      ? Color(successColor).withOpacity(0.1)
+                      : Color(primaryColor).withOpacity(0.05),
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Icon(icon, color: isCarga ? Color(successColor) : Color(primaryColor), size: 24),
+            child: Icon(
+              icon,
+              color: isCarga ? Color(successColor) : Color(primaryColor),
+              size: 24,
+            ),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -144,16 +165,27 @@ class HistorialViajesScreen extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16, color: Color(neutralTextColor)),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                    color: Color(neutralTextColor),
+                  ),
                 ),
                 Text(
                   subtitle,
-                  style: TextStyle(fontSize: 13, color: Color(neutralTextColor).withOpacity(0.5)),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Color(neutralTextColor).withOpacity(0.5),
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   date,
-                  style: TextStyle(fontSize: 12, color: Color(neutralTextColor).withOpacity(0.4), fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Color(neutralTextColor).withOpacity(0.4),
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ],
             ),

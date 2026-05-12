@@ -1,27 +1,32 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tneapp/config/constants/colores.dart';
 
 class RechargeScreen extends StatefulWidget {
-  const RechargeScreen({super.key});
+  final bool isPhysical;
+  const RechargeScreen({super.key, this.isPhysical = false});
 
   @override
   State<RechargeScreen> createState() => _RechargeScreenState();
 }
 
 class _RechargeScreenState extends State<RechargeScreen> {
-  String selectedAmount = '\$ 5.000';
-  final List<String> amounts = ['\$ 2.000', '\$ 5.000', '\$ 10.000', '\$ 20.000'];
+  String selectedAmount = r'$ 5.000';
+  final List<String> amounts = [r'$ 2.000', r'$ 5.000', r'$ 10.000', r'$ 20.000'];
 
   @override
   Widget build(BuildContext context) {
+    final String initialBalance = widget.isPhysical ? r'$ 1.000' : r'$ 4.500';
+    final String cardType = widget.isPhysical ? 'Tarjeta Física' : 'Pase Digital';
+    
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Cargar Saldo'),
+        title: Text('Cargar $cardType'),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
@@ -29,7 +34,8 @@ class _RechargeScreenState extends State<RechargeScreen> {
               onTap: () => context.push('/profile'),
               child: const CircleAvatar(
                 radius: 18,
-                backgroundImage: NetworkImage('https://i.pravatar.cc/150?u=camila'),
+                backgroundImage: AssetImage('assets/images/user_profile.png'),
+                backgroundColor: AppColors.background,
               ),
             ),
           ),
@@ -44,12 +50,21 @@ class _RechargeScreenState extends State<RechargeScreen> {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF2E58A6), Color(0xFF1E3A8A)],
+                gradient: LinearGradient(
+                  colors: widget.isPhysical 
+                    ? [const Color(0xFF475569), const Color(0xFF1E293B)] // Grey/Slate for physical
+                    : [const Color(0xFF2E58A6), const Color(0xFF1E3A8A)], // Blue for digital
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: (widget.isPhysical ? Colors.black : AppColors.primaryBlue).withOpacity(0.2),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,13 +76,17 @@ class _RechargeScreenState extends State<RechargeScreen> {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(color: Colors.white.withOpacity(0.2), borderRadius: BorderRadius.circular(8)),
-                        child: const Icon(Icons.credit_card, color: Colors.white, size: 24),
+                        child: Icon(
+                          widget.isPhysical ? Icons.credit_card : Icons.qr_code_2_rounded, 
+                          color: Colors.white, 
+                          size: 24
+                        ),
                       ),
                     ],
                   ),
-                  const Text(
-                    '\$ 4.500',
-                    style: TextStyle(color: Colors.white, fontSize: 42, fontWeight: FontWeight.w900),
+                  Text(
+                    initialBalance,
+                    style: const TextStyle(color: Colors.white, fontSize: 42, fontWeight: FontWeight.w900),
                   ),
                   const SizedBox(height: 12),
                   const Row(
@@ -80,7 +99,37 @@ class _RechargeScreenState extends State<RechargeScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 32),
+            
+            const SizedBox(height: 24),
+
+            // Warning for Physical Card Activation
+            if (widget.isPhysical)
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: AppColors.tertiaryYellow.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.tertiaryYellow.withOpacity(0.3)),
+                ),
+                child: const Row(
+                  children: [
+                    Icon(Icons.info_outline_rounded, color: AppColors.tertiaryYellow),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        'Importante: El saldo cargado en tu tarjeta física debe ser activado en un tótem Infobip antes de ser usado.',
+                        style: TextStyle(
+                          fontSize: 13, 
+                          color: Color(0xFF856404),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+            const SizedBox(height: 24),
             
             const Text(
               'SELECCIONA EL MONTO A CARGAR',
@@ -170,11 +219,11 @@ class _RechargeScreenState extends State<RechargeScreen> {
                 children: [
                   const Text('Medios de pago disponibles', style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
                   const SizedBox(height: 12),
-                  Row(
+                  const Row(
                     children: [
-                      const Icon(Icons.account_balance_wallet, color: AppColors.primaryBlue),
-                      const SizedBox(width: 12),
-                      const Text('Movired', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: AppColors.textMain)),
+                      Icon(Icons.account_balance_wallet, color: AppColors.primaryBlue),
+                      SizedBox(width: 12),
+                      Text('Movired', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: AppColors.textMain)),
                     ],
                   ),
                 ],
