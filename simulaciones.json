@@ -1,0 +1,360 @@
+{
+  "endpoints": [
+    {
+      "method": "POST",
+      "url": "/api/auth/login",
+      "responses": [
+        {
+          "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.SIMULADO.aQ8f3nR1kLm9pXs7tZc2vB4dJh6yWq0e",
+          "token_type": "bearer",
+          "expires_in": 28800,
+          "user": {
+            "id": 2,
+            "establecimiento_id": 1,
+            "name": "Encargado Demo",
+            "email": "encargado@escuela.cl",
+            "rol": "encargado",
+            "activo": true,
+            "establecimiento": { "id": 1, "nombre": "Escuela Demo", "rut": "76543210-3", "activo": true }
+          }
+        },
+        {
+          "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.SIMULADO.rT5yU8oPl2mNb6vCx1zAq9wEs4dFj7hK",
+          "token_type": "bearer",
+          "expires_in": 28800,
+          "user": {
+            "id": 3,
+            "establecimiento_id": 1,
+            "name": "Operario Demo",
+            "email": "operario@escuela.cl",
+            "rol": "operario",
+            "activo": true,
+            "establecimiento": { "id": 1, "nombre": "Escuela Demo", "rut": "76543210-3", "activo": true }
+          }
+        },
+        {
+          "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.SIMULADO.mK2nB7vCx9zLq4wEs1dFj8hRt5yU0oPl",
+          "token_type": "bearer",
+          "expires_in": 28800,
+          "user": {
+            "id": 2,
+            "establecimiento_id": 1,
+            "name": "Encargado Demo",
+            "email": "encargado@escuela.cl",
+            "rol": "encargado",
+            "activo": true,
+            "establecimiento": { "id": 1, "nombre": "Escuela Demo", "rut": "76543210-3", "activo": true }
+          }
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "url": "/api/auth/me",
+      "responses": [
+        {
+          "id": 2,
+          "establecimiento_id": 1,
+          "name": "Encargado Demo",
+          "email": "encargado@escuela.cl",
+          "rol": "encargado",
+          "activo": true,
+          "establecimiento": { "id": 1, "nombre": "Escuela Demo", "rut": "76543210-3", "activo": true }
+        },
+        {
+          "id": 3,
+          "establecimiento_id": 1,
+          "name": "Operario Demo",
+          "email": "operario@escuela.cl",
+          "rol": "operario",
+          "activo": true,
+          "establecimiento": { "id": 1, "nombre": "Escuela Demo", "rut": "76543210-3", "activo": true }
+        },
+        {
+          "id": 2,
+          "establecimiento_id": 1,
+          "name": "Encargado Demo",
+          "email": "encargado@escuela.cl",
+          "rol": "encargado",
+          "activo": true,
+          "establecimiento": { "id": 1, "nombre": "Escuela Demo", "rut": "76543210-3", "activo": true }
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "url": "/api/auth/refresh",
+      "responses": [
+        {
+          "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.SIMULADO.b3nJ6yQwEs1dFhRt5yU0oPl2mKvCx9zL",
+          "token_type": "bearer",
+          "expires_in": 28800,
+          "user": {
+            "id": 2,
+            "establecimiento_id": 1,
+            "name": "Encargado Demo",
+            "email": "encargado@escuela.cl",
+            "rol": "encargado",
+            "activo": true,
+            "establecimiento": { "id": 1, "nombre": "Escuela Demo", "rut": "76543210-3", "activo": true }
+          }
+        },
+        {
+          "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.SIMULADO.wEs1dFhRt5yU0oPl2mKvCx9zLb3nJ6yQ",
+          "token_type": "bearer",
+          "expires_in": 28800,
+          "user": {
+            "id": 2,
+            "establecimiento_id": 1,
+            "name": "Encargado Demo",
+            "email": "encargado@escuela.cl",
+            "rol": "encargado",
+            "activo": true,
+            "establecimiento": { "id": 1, "nombre": "Escuela Demo", "rut": "76543210-3", "activo": true }
+          }
+        },
+        {
+          "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.SIMULADO.t5yU0oPl2mKvCx9zLb3nJ6yQwEs1dFhR",
+          "token_type": "bearer",
+          "expires_in": 28800,
+          "user": {
+            "id": 3,
+            "establecimiento_id": 1,
+            "name": "Operario Demo",
+            "email": "operario@escuela.cl",
+            "rol": "operario",
+            "activo": true,
+            "establecimiento": { "id": 1, "nombre": "Escuela Demo", "rut": "76543210-3", "activo": true }
+          }
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "url": "/api/auth/logout",
+      "responses": [
+        { "message": "Sesión cerrada." },
+        { "message": "Sesión cerrada." },
+        { "message": "Sesión cerrada." }
+      ]
+    },
+    {
+      "method": "GET",
+      "url": "/api/beneficios",
+      "responses": [
+        {
+          "areas": [
+            {
+              "id": 1,
+              "nombre": "Alimentación Escolar",
+              "beneficios": [
+                { "id": 1, "nombre": "Desayuno Escolar", "stockeable": false, "stock_actual": null, "periodicidad": "diaria" },
+                { "id": 2, "nombre": "Almuerzo Escolar", "stockeable": false, "stock_actual": null, "periodicidad": "diaria" }
+              ]
+            },
+            {
+              "id": 2,
+              "nombre": "Salud Escolar",
+              "beneficios": [
+                { "id": 4, "nombre": "Atención Odontológica", "stockeable": false, "stock_actual": null, "periodicidad": "unica" },
+                { "id": 5, "nombre": "Atención Oftalmológica - Lentes Ópticos", "stockeable": true, "stock_actual": 19, "periodicidad": "unica" }
+              ]
+            },
+            {
+              "id": 3,
+              "nombre": "Útiles y Textos Escolares",
+              "beneficios": [
+                { "id": 7, "nombre": "Kit de Útiles Escolares", "stockeable": true, "stock_actual": 47, "periodicidad": "unica" }
+              ]
+            }
+          ]
+        },
+        {
+          "areas": [
+            {
+              "id": 1,
+              "nombre": "Alimentación Escolar",
+              "beneficios": [
+                { "id": 1, "nombre": "Desayuno Escolar", "stockeable": false, "stock_actual": null, "periodicidad": "diaria" },
+                { "id": 2, "nombre": "Almuerzo Escolar", "stockeable": false, "stock_actual": null, "periodicidad": "diaria" }
+              ]
+            },
+            {
+              "id": 2,
+              "nombre": "Salud Escolar",
+              "beneficios": [
+                { "id": 4, "nombre": "Atención Odontológica", "stockeable": false, "stock_actual": null, "periodicidad": "unica" },
+                { "id": 5, "nombre": "Atención Oftalmológica - Lentes Ópticos", "stockeable": true, "stock_actual": 18, "periodicidad": "unica" }
+              ]
+            },
+            {
+              "id": 3,
+              "nombre": "Útiles y Textos Escolares",
+              "beneficios": [
+                { "id": 7, "nombre": "Kit de Útiles Escolares", "stockeable": true, "stock_actual": 46, "periodicidad": "unica" }
+              ]
+            }
+          ]
+        },
+        {
+          "areas": [
+            {
+              "id": 1,
+              "nombre": "Alimentación Escolar",
+              "beneficios": [
+                { "id": 1, "nombre": "Desayuno Escolar", "stockeable": false, "stock_actual": null, "periodicidad": "diaria" },
+                { "id": 2, "nombre": "Almuerzo Escolar", "stockeable": false, "stock_actual": null, "periodicidad": "diaria" }
+              ]
+            },
+            {
+              "id": 2,
+              "nombre": "Salud Escolar",
+              "beneficios": [
+                { "id": 4, "nombre": "Atención Odontológica", "stockeable": false, "stock_actual": null, "periodicidad": "unica" },
+                { "id": 5, "nombre": "Atención Oftalmológica - Lentes Ópticos", "stockeable": true, "stock_actual": 18, "periodicidad": "unica" }
+              ]
+            },
+            {
+              "id": 3,
+              "nombre": "Útiles y Textos Escolares",
+              "beneficios": [
+                { "id": 7, "nombre": "Kit de Útiles Escolares", "stockeable": true, "stock_actual": 45, "periodicidad": "unica" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "url": "/api/alumnos",
+      "responses": [
+        [
+          {
+            "id": 1,
+            "establecimiento_id": 1,
+            "rut": "11111111-1",
+            "codigo_qr": "JB4EQDU2",
+            "nombre": "Ana Torres Pérez",
+            "nacimiento": "2012-03-14",
+            "curso": "6° Básico A",
+            "verificado": true,
+            "verificado_por": { "id": 1, "name": "Administrador Demo" },
+            "verificado_en": "2026-07-10T13:20:00.000000Z"
+          }
+        ],
+        [
+          {
+            "id": 2,
+            "establecimiento_id": 1,
+            "rut": "22222222-2",
+            "codigo_qr": "GGKR9DZT",
+            "nombre": "Benjamín Soto Rivas",
+            "nacimiento": "2011-07-02",
+            "curso": "7° Básico B",
+            "verificado": true,
+            "verificado_por": { "id": 1, "name": "Administrador Demo" },
+            "verificado_en": "2026-07-10T13:21:00.000000Z"
+          },
+          {
+            "id": 3,
+            "establecimiento_id": 1,
+            "rut": "33333333-3",
+            "codigo_qr": "PGQP4XYU",
+            "nombre": "Camila Fuentes Díaz",
+            "nacimiento": "2013-01-25",
+            "curso": "5° Básico A",
+            "verificado": true,
+            "verificado_por": { "id": 1, "name": "Administrador Demo" },
+            "verificado_en": "2026-07-10T13:22:00.000000Z"
+          }
+        ],
+        []
+      ]
+    },
+    {
+      "method": "POST",
+      "url": "/api/alumnos",
+      "responses": [
+        {
+          "establecimiento_id": 1,
+          "rut": "20123456-7",
+          "nombre": "Diego Alarcón Muñoz",
+          "nacimiento": null,
+          "curso": null,
+          "verificado": false,
+          "codigo_qr": "F7K2Q9XR",
+          "id": 9,
+          "created_at": "2026-07-21T15:03:00.000000Z",
+          "updated_at": "2026-07-21T15:03:00.000000Z"
+        },
+        {
+          "establecimiento_id": 1,
+          "rut": "19876543-2",
+          "nombre": "Martina Vidal Correa",
+          "nacimiento": null,
+          "curso": null,
+          "verificado": false,
+          "codigo_qr": "T4N8W2VC",
+          "id": 10,
+          "created_at": "2026-07-21T15:05:00.000000Z",
+          "updated_at": "2026-07-21T15:05:00.000000Z"
+        },
+        {
+          "establecimiento_id": 1,
+          "rut": "21456789-0",
+          "nombre": "Joaquín Pérez Salinas",
+          "nacimiento": null,
+          "curso": null,
+          "verificado": false,
+          "codigo_qr": "H9M3K7YD",
+          "id": 11,
+          "created_at": "2026-07-21T15:07:00.000000Z",
+          "updated_at": "2026-07-21T15:07:00.000000Z"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "url": "/api/beneficios/entrega",
+      "responses": [
+        {
+          "id": 101,
+          "establecimiento_id": 1,
+          "beneficio_id": 1,
+          "alumno_id": 1,
+          "user_id": 2,
+          "codigo": null,
+          "created_at": "2026-07-21T15:10:00.000000Z",
+          "updated_at": "2026-07-21T15:10:00.000000Z",
+          "beneficio": { "id": 1, "nombre": "Desayuno Escolar", "stockeable": false },
+          "alumno": { "id": 1, "rut": "11111111-1", "nombre": "Ana Torres Pérez" }
+        },
+        {
+          "id": 102,
+          "establecimiento_id": 1,
+          "beneficio_id": 7,
+          "alumno_id": 2,
+          "user_id": 2,
+          "codigo": "KIT-4821",
+          "created_at": "2026-07-21T15:12:00.000000Z",
+          "updated_at": "2026-07-21T15:12:00.000000Z",
+          "beneficio": { "id": 7, "nombre": "Kit de Útiles Escolares", "stockeable": true },
+          "alumno": { "id": 2, "rut": "22222222-2", "nombre": "Benjamín Soto Rivas" }
+        },
+        {
+          "id": 103,
+          "establecimiento_id": 1,
+          "beneficio_id": 5,
+          "alumno_id": 3,
+          "user_id": 3,
+          "codigo": "LEN-0093",
+          "created_at": "2026-07-21T15:14:00.000000Z",
+          "updated_at": "2026-07-21T15:14:00.000000Z",
+          "beneficio": { "id": 5, "nombre": "Atención Oftalmológica - Lentes Ópticos", "stockeable": true },
+          "alumno": { "id": 3, "rut": "33333333-3", "nombre": "Camila Fuentes Díaz" }
+        }
+      ]
+    }
+  ]
+}

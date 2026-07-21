@@ -433,9 +433,9 @@ class _EstablishmentHomeScreenState extends State<EstablishmentHomeScreen> {
                   ),
                 ],
               ),
-            )
-          else
-            ...beneficios.map((b) => _buildStockCard(context, b, themeColor)),
+            ),
+          for (final b in beneficios)
+            _buildStockCard(context, b, themeColor),
         ],
       ),
     ),
