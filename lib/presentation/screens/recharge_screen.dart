@@ -218,12 +218,41 @@ class _RechargeScreenState extends State<RechargeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('Medios de pago disponibles', style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
-                  const SizedBox(height: 12),
-                  const Row(
+                  const SizedBox(height: 14),
+                  Row(
                     children: [
-                      Icon(Icons.account_balance_wallet, color: AppColors.primaryBlue),
-                      SizedBox(width: 12),
-                      Text('Movired', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: AppColors.textMain)),
+                      CircleAvatar(
+                        backgroundColor: const Color(0xFFE30613).withOpacity(0.1),
+                        child: const Icon(Icons.credit_card_rounded, color: Color(0xFFE30613)),
+                      ),
+                      const SizedBox(width: 12),
+                      const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('GetnetClick', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: AppColors.textMain)),
+                          Text('Pago seguro tarjetas débito/crédito', style: TextStyle(fontSize: 11, color: AppColors.textSecondary)),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Divider(),
+                  ),
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: AppColors.primaryBlue.withOpacity(0.1),
+                        child: const Icon(Icons.account_balance_wallet_rounded, color: AppColors.primaryBlue),
+                      ),
+                      const SizedBox(width: 12),
+                      const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Movired', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: AppColors.textMain)),
+                          Text('Red oficial de carga saldo TNE', style: TextStyle(fontSize: 11, color: AppColors.textSecondary)),
+                        ],
+                      ),
                     ],
                   ),
                 ],

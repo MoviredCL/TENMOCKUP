@@ -27,6 +27,9 @@ import 'package:tneapp/presentation/screens/establishment_assign_benefit_screen.
 import 'package:tneapp/models/beneficio.dart';
 import 'package:tneapp/presentation/screens/parent_home_screen.dart';
 import 'package:tneapp/presentation/screens/parent_profile_screen.dart';
+import 'package:tneapp/presentation/screens/parent_recharge_screen.dart';
+import 'package:tneapp/presentation/screens/parent_movements_screen.dart';
+import 'package:tneapp/presentation/screens/parent_scholarships_screen.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/login',
@@ -111,6 +114,36 @@ final appRouter = GoRouter(
           const curve = Curves.easeInOutCubic;
           var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
           return SlideTransition(position: animation.drive(tween), child: child);
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/parent-recharge',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const ParentRechargeScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/parent-movements',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const ParentMovementsScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/parent-scholarships',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const ParentScholarshipsScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
         },
       ),
     ),
