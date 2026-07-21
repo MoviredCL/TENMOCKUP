@@ -58,6 +58,7 @@ class ChildProfile {
   final String rut;
   final String curso;
   final String establecimiento;
+  final String? fechaNacimiento;
   final String image;
   int tneBalance;
   int baesBalance;
@@ -73,6 +74,7 @@ class ChildProfile {
     required this.rut,
     required this.curso,
     required this.establecimiento,
+    this.fechaNacimiento,
     required this.image,
     required this.tneBalance,
     required this.baesBalance,
@@ -374,7 +376,13 @@ class ParentDataStore extends ChangeNotifier {
     }
   }
 
-  void addChild(String name, String rut, String curso, String establecimiento) {
+  void addChild({
+    required String name,
+    required String rut,
+    required String curso,
+    required String establecimiento,
+    String? fechaNacimiento,
+  }) {
     children.add(
       ChildProfile(
         id: 'child_${children.length + 1}',
@@ -382,7 +390,8 @@ class ParentDataStore extends ChangeNotifier {
         rut: rut,
         curso: curso,
         establecimiento: establecimiento,
-        image: name.toLowerCase().endsWith('a') ? 'assets/images/pupilo_female.png' : 'assets/images/pupilo_male.png',
+        fechaNacimiento: fechaNacimiento,
+        image: name.trim().toLowerCase().endsWith('a') ? 'assets/images/pupilo_female.png' : 'assets/images/pupilo_male.png',
         tneBalance: 1000,
         baesBalance: 0,
         tneCardNumber: '9900-${DateTime.now().millisecond}-01',

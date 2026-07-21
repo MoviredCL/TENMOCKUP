@@ -1080,68 +1080,210 @@ class _ParentHomeScreenState extends State<ParentHomeScreen> {
   }
 
   void _showAddChildModal(BuildContext context) {
+    final nameController = TextEditingController();
     final rutController = TextEditingController();
+    final birthDateController = TextEditingController();
+    final cursoController = TextEditingController();
+    final schoolController = TextEditingController();
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder:
-          (context) => Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setModalState) => Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: Container(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.85,
             ),
-            child: Container(
-              padding: const EdgeInsets.all(24),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
-              ),
+            padding: const EdgeInsets.all(24),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+            ),
+            child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Vincular Pupilo',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w900,
-                      color: AppColors.primaryBlue,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  const Text(
-                    'Ingresa el RUT de tu hijo para realizarle seguimiento en tiempo real.',
-                    style: TextStyle(color: AppColors.textSecondary),
-                  ),
-                  const SizedBox(height: 24),
-                  TextField(
-                    controller: rutController,
-                    decoration: InputDecoration(
-                      labelText: 'RUT del alumno',
-                      hintText: 'Ej: 12.345.678-9',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                  Center(
+                    child: Container(
+                      width: 40,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(2),
                       ),
                     ),
                   ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryBlue.withOpacity(0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.person_add_alt_1_rounded, color: AppColors.primaryBlue, size: 24),
+                      ),
+                      const SizedBox(width: 12),
+                      const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Vincular Pupilo',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w900,
+                              color: AppColors.primaryBlue,
+                            ),
+                          ),
+                          Text(
+                            'Ingresa la información de tu hijo para el seguimiento',
+                            style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  const Divider(),
+                  const SizedBox(height: 16),
+                  
+                  // Campo 1: Nombre
+                  TextField(
+                    controller: nameController,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: InputDecoration(
+                      labelText: 'Nombre completo',
+                      hintText: 'Ej: Sofía Morales',
+                      prefixIcon: const Icon(Icons.person_outline),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+
+                  // Campo 2: RUT
+                  TextField(
+                    controller: rutController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      labelText: 'RUT del alumno',
+                      hintText: 'Ej: 23.456.789-0',
+                      prefixIcon: const Icon(Icons.badge_outlined),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+
+                  // Campo 3: Fecha de Nacimiento
+                  TextField(
+                    controller: birthDateController,
+                    readOnly: true,
+                    onTap: () async {
+                      final pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime(2012, 5, 14),
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime.now(),
+                      );
+                      if (pickedDate != null) {
+                        final formatted = '${pickedDate.day.toString().padLeft(2, '0')}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.year}';
+                        setModalState(() {
+                          birthDateController.text = formatted;
+                        });
+                      }
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Fecha de nacimiento',
+                      hintText: 'DD/MM/AAAA',
+                      prefixIcon: const Icon(Icons.cake_outlined),
+                      suffixIcon: const Icon(Icons.calendar_month_rounded),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+
+                  // Campo 4: Curso
+                  TextField(
+                    controller: cursoController,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: InputDecoration(
+                      labelText: 'Curso o Nivel',
+                      hintText: 'Ej: 1° Medio B',
+                      prefixIcon: const Icon(Icons.school_outlined),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+
+                  // Campo 5: Establecimiento
+                  TextField(
+                    controller: schoolController,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: InputDecoration(
+                      labelText: 'Establecimiento Educacional',
+                      hintText: 'Ej: Liceo N° 1 Javiera Carrera',
+                      prefixIcon: const Icon(Icons.account_balance_outlined),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                  ),
                   const SizedBox(height: 24),
+
                   ElevatedButton(
                     onPressed: () {
-                      if (rutController.text.isNotEmpty) {
-                        _store.addChild('Nuevo Pupilo', rutController.text, '1° Medio A', 'Liceo de Aplicación');
+                      final name = nameController.text.trim();
+                      final rut = rutController.text.trim();
+                      final birthDate = birthDateController.text.trim();
+                      final curso = cursoController.text.trim().isEmpty ? '1° Medio A' : cursoController.text.trim();
+                      final school = schoolController.text.trim().isEmpty ? 'Colegio Público de Santiago' : schoolController.text.trim();
+
+                      if (name.isNotEmpty && rut.isNotEmpty) {
+                        _store.addChild(
+                          name: name,
+                          rut: rut,
+                          curso: curso,
+                          establecimiento: school,
+                          fechaNacimiento: birthDate.isNotEmpty ? birthDate : null,
+                        );
                         Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('¡Pupilo $name vinculado exitosamente!'),
+                            backgroundColor: Colors.green.shade700,
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Por favor completa al menos Nombre y RUT del pupilo.'),
+                            backgroundColor: Colors.orange,
+                          ),
+                        );
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 56),
+                      backgroundColor: AppColors.primaryBlue,
+                      foregroundColor: Colors.white,
+                      minimumSize: const Size(double.infinity, 54),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                     ),
-                    child: const Text('Vincular'),
+                    child: const Text(
+                      'Guardar y Vincular Pupilo',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
                   ),
                   const SizedBox(height: 16),
                 ],
               ),
             ),
           ),
+        ),
+      ),
     );
   }
 }

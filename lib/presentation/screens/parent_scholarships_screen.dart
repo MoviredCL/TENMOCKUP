@@ -7,7 +7,8 @@ class ParentScholarshipsScreen extends StatefulWidget {
   const ParentScholarshipsScreen({super.key});
 
   @override
-  State<ParentScholarshipsScreen> createState() => _ParentScholarshipsScreenState();
+  State<ParentScholarshipsScreen> createState() =>
+      _ParentScholarshipsScreenState();
 }
 
 class _ParentScholarshipsScreenState extends State<ParentScholarshipsScreen> {
@@ -29,151 +30,198 @@ class _ParentScholarshipsScreenState extends State<ParentScholarshipsScreen> {
     if (mounted) setState(() {});
   }
 
-  void _showScholarshipDetail(ChildScholarship scholarship, ChildProfile child) {
+  void _showScholarshipDetail(
+    ChildScholarship scholarship,
+    ChildProfile child,
+  ) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Row(
+      builder:
+          (context) => Container(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryBlue.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(16),
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(2),
+                    ),
                   ),
-                  child: const Icon(Icons.school_rounded, color: AppColors.primaryBlue, size: 28),
                 ),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryBlue.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: const Icon(
+                        Icons.school_rounded,
+                        color: AppColors.primaryBlue,
+                        size: 28,
+                      ),
+                    ),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            scholarship.title,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w900,
+                              color: AppColors.textMain,
+                            ),
+                          ),
+                          Text(
+                            'Beneficiario: ${child.name} (${child.curso})',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: AppColors.background,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: AppColors.border),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        scholarship.title,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w900,
-                          color: AppColors.textMain,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Monto Otorgado',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            scholarship.monetaryAmount,
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w900,
+                              color: AppColors.primaryBlue,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: scholarship.statusColor,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          scholarship.status,
+                          style: TextStyle(
+                            color: scholarship.textColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
                         ),
                       ),
-                      Text(
-                        'Beneficiario: ${child.name} (${child.curso})',
-                        style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
-                      ),
                     ],
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppColors.background,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.border),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Monto Otorgado', style: TextStyle(fontSize: 12, color: AppColors.textSecondary)),
-                      const SizedBox(height: 4),
-                      Text(
-                        scholarship.monetaryAmount,
-                        style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: AppColors.primaryBlue),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: scholarship.statusColor,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      scholarship.status,
-                      style: TextStyle(color: scholarship.textColor, fontWeight: FontWeight.bold, fontSize: 12),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              scholarship.description,
-              style: const TextStyle(fontSize: 14, color: AppColors.textMain, height: 1.4),
-            ),
-            const SizedBox(height: 20),
-            const Divider(),
-            const SizedBox(height: 12),
-            _infoRow('Periodicidad:', scholarship.periodicity),
-            _infoRow('Próxima fecha de pago/beneficio:', scholarship.nextPaymentDate, isBold: true),
-            _infoRow('Establecimiento:', child.establecimiento),
-            _infoRow('RUT Pupilo:', child.rut),
-            const SizedBox(height: 24),
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Descargando certificado de beca para ${child.name}...')),
-                      );
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.download_rounded, size: 18),
-                    label: const Text('Descargar Certificado'),
-                    style: OutlinedButton.styleFrom(
-                      minimumSize: const Size(0, 48),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    ),
+                const SizedBox(height: 20),
+                Text(
+                  scholarship.description,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: AppColors.textMain,
+                    height: 1.4,
                   ),
                 ),
-                if (scholarship.canApplyOrRenew) ...[
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        context.push('/scholarship-application', extra: scholarship.title);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryBlue,
-                        minimumSize: const Size(0, 48),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                const SizedBox(height: 20),
+                const Divider(),
+                const SizedBox(height: 12),
+                _infoRow('Periodicidad:', scholarship.periodicity),
+                _infoRow(
+                  'Próxima fecha de pago/beneficio:',
+                  scholarship.nextPaymentDate,
+                  isBold: true,
+                ),
+                _infoRow('Establecimiento:', child.establecimiento),
+                _infoRow('RUT Pupilo:', child.rut),
+                const SizedBox(height: 24),
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        onPressed: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Descargando certificado de beca para ${child.name}...',
+                              ),
+                            ),
+                          );
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(Icons.download_rounded, size: 18),
+                        label: const Text('Descargar Certificado'),
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(0, 48),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
                       ),
-                      child: const Text('Renovar Beca'),
                     ),
-                  ),
-                ],
+                    if (scholarship.canApplyOrRenew) ...[
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            context.push(
+                              '/scholarship-application',
+                              extra: scholarship.title,
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryBlue,
+                            minimumSize: const Size(0, 48),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text('Renovar Beca'),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
               ],
             ),
-          ],
-        ),
-      ),
+          ),
     );
   }
 
@@ -183,7 +231,13 @@ class _ParentScholarshipsScreenState extends State<ParentScholarshipsScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title, style: const TextStyle(color: AppColors.textSecondary, fontSize: 13)),
+          Text(
+            title,
+            style: const TextStyle(
+              color: AppColors.textSecondary,
+              fontSize: 13,
+            ),
+          ),
           Text(
             value,
             style: TextStyle(
@@ -260,23 +314,33 @@ class _ParentScholarshipsScreenState extends State<ParentScholarshipsScreen> {
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 250),
                       margin: const EdgeInsets.only(right: 12),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 10,
+                      ),
                       decoration: BoxDecoration(
-                        color: isSelected ? AppColors.primaryBlue : Colors.white,
+                        color:
+                            isSelected ? AppColors.primaryBlue : Colors.white,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: isSelected ? AppColors.primaryBlue : AppColors.border,
+                          color:
+                              isSelected
+                                  ? AppColors.primaryBlue
+                                  : AppColors.border,
                           width: 2,
                         ),
-                        boxShadow: isSelected
-                            ? [
-                                BoxShadow(
-                                  color: AppColors.primaryBlue.withOpacity(0.25),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 4),
-                                )
-                              ]
-                            : [],
+                        boxShadow:
+                            isSelected
+                                ? [
+                                  BoxShadow(
+                                    color: AppColors.primaryBlue.withOpacity(
+                                      0.25,
+                                    ),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ]
+                                : [],
                       ),
                       child: Row(
                         children: [
@@ -289,7 +353,10 @@ class _ParentScholarshipsScreenState extends State<ParentScholarshipsScreen> {
                           Text(
                             child.name,
                             style: TextStyle(
-                              color: isSelected ? Colors.white : AppColors.textMain,
+                              color:
+                                  isSelected
+                                      ? Colors.white
+                                      : AppColors.textMain,
                               fontWeight: FontWeight.bold,
                               fontSize: 13,
                             ),
@@ -329,11 +396,15 @@ class _ParentScholarshipsScreenState extends State<ParentScholarshipsScreen> {
                       children: [
                         const Text(
                           'Becas Mineduc & JUNAEB 2026',
-                          style: TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.w600),
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'Postula o renova las becas de ${activeChild.name}',
+                          'Postula o renueva las becas de ${activeChild.name}',
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 17,
@@ -343,22 +414,36 @@ class _ParentScholarshipsScreenState extends State<ParentScholarshipsScreen> {
                         const SizedBox(height: 14),
                         ElevatedButton.icon(
                           onPressed: () {
-                            context.push('/scholarship-application', extra: 'Beca Escolar');
+                            context.push(
+                              '/scholarship-application',
+                              extra: 'Beca Escolar',
+                            );
                           },
                           icon: const Icon(Icons.edit_note_rounded, size: 18),
-                          label: Text('Postular a Beca para ${activeChild.name.split(' ')[0]}'),
+                          label: Text(
+                            'Postular a Beca para ${activeChild.name.split(' ')[0]}',
+                          ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
                             foregroundColor: AppColors.primaryBlue,
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 10,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(width: 12),
-                  const Icon(Icons.workspace_premium_rounded, size: 54, color: Colors.white70),
+                  const Icon(
+                    Icons.workspace_premium_rounded,
+                    size: 54,
+                    color: Colors.white70,
+                  ),
                 ],
               ),
             ),
@@ -378,7 +463,10 @@ class _ParentScholarshipsScreenState extends State<ParentScholarshipsScreen> {
                 ),
                 Text(
                   '${activeChild.scholarships.length} vigentes',
-                  style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                  style: const TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 12,
+                  ),
                 ),
               ],
             ),
@@ -405,7 +493,10 @@ class _ParentScholarshipsScreenState extends State<ParentScholarshipsScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 4,
+                              ),
                               decoration: BoxDecoration(
                                 color: AppColors.primaryBlue.withOpacity(0.08),
                                 borderRadius: BorderRadius.circular(8),
@@ -420,7 +511,10 @@ class _ParentScholarshipsScreenState extends State<ParentScholarshipsScreen> {
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 4,
+                              ),
                               decoration: BoxDecoration(
                                 color: scholarship.statusColor,
                                 borderRadius: BorderRadius.circular(8),
@@ -466,7 +560,10 @@ class _ParentScholarshipsScreenState extends State<ParentScholarshipsScreen> {
                               children: [
                                 const Text(
                                   'Monto / Cobertura',
-                                  style: TextStyle(fontSize: 10, color: AppColors.textSecondary),
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: AppColors.textSecondary,
+                                  ),
                                 ),
                                 Text(
                                   scholarship.monetaryAmount,
@@ -482,10 +579,18 @@ class _ParentScholarshipsScreenState extends State<ParentScholarshipsScreen> {
                               children: [
                                 Text(
                                   scholarship.periodicity,
-                                  style: const TextStyle(fontSize: 12, color: AppColors.textSecondary, fontWeight: FontWeight.w600),
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: AppColors.textSecondary,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                                 const SizedBox(width: 4),
-                                const Icon(Icons.chevron_right, color: AppColors.textTertiary, size: 20),
+                                const Icon(
+                                  Icons.chevron_right,
+                                  color: AppColors.textTertiary,
+                                  size: 20,
+                                ),
                               ],
                             ),
                           ],
@@ -515,7 +620,9 @@ class _ParentBottomNav extends StatelessWidget {
       height: 90,
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(top: BorderSide(color: AppColors.border.withOpacity(0.5))),
+        border: Border(
+          top: BorderSide(color: AppColors.border.withOpacity(0.5)),
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
