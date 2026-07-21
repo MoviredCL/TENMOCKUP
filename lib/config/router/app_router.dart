@@ -15,6 +15,19 @@ import 'package:tneapp/presentation/screens/profile_sync_screen.dart';
 import 'package:tneapp/presentation/screens/scholarship_application_screen.dart';
 import 'package:tneapp/presentation/screens/application_success_screen.dart';
 
+// Login Screens
+import 'package:tneapp/presentation/screens/student_login_screen.dart';
+import 'package:tneapp/presentation/screens/establishment_login_screen.dart';
+import 'package:tneapp/presentation/screens/parent_login_screen.dart';
+
+// Home Screens
+import 'package:tneapp/presentation/screens/establishment_home_screen.dart';
+import 'package:tneapp/presentation/screens/establishment_delivery_screen.dart';
+import 'package:tneapp/presentation/screens/establishment_assign_benefit_screen.dart';
+import 'package:tneapp/models/beneficio.dart';
+import 'package:tneapp/presentation/screens/parent_home_screen.dart';
+import 'package:tneapp/presentation/screens/parent_profile_screen.dart';
+
 final appRouter = GoRouter(
   initialLocation: '/login',
   routes: [
@@ -23,12 +36,81 @@ final appRouter = GoRouter(
       builder: (context, state) => const LoginScreen(),
     ),
     GoRoute(
+      path: '/login-student',
+      builder: (context, state) => const StudentLoginScreen(),
+    ),
+    GoRoute(
+      path: '/login-establishment',
+      builder: (context, state) => const EstablishmentLoginScreen(),
+    ),
+    GoRoute(
+      path: '/login-parent',
+      builder: (context, state) => const ParentLoginScreen(),
+    ),
+    GoRoute(
       path: '/home',
       pageBuilder: (context, state) => CustomTransitionPage(
         key: state.pageKey,
         child: const HomeScreen(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(opacity: animation, child: child);
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/establishment-home',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const EstablishmentHomeScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/establishment-delivery',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const EstablishmentDeliveryScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/establishment-assign-benefit',
+      pageBuilder: (context, state) {
+        final beneficio = state.extra as Beneficio;
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: EstablishmentAssignBenefitScreen(beneficio: beneficio),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        );
+      },
+    ),
+    GoRoute(
+      path: '/parent-home',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const ParentHomeScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
+    ),
+    GoRoute(
+      path: '/parent-profile',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const ParentProfileScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(1.0, 0.0);
+          const end = Offset.zero;
+          const curve = Curves.easeInOutCubic;
+          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          return SlideTransition(position: animation.drive(tween), child: child);
         },
       ),
     ),

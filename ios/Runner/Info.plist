@@ -28,6 +28,13 @@
 	<true/>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Why is my app authenticating using face id?</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Se requiere acceso a la cámara para escanear el código de serie de los beneficios.</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

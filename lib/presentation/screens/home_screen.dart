@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -12,48 +11,228 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool _showWarning = true;
+  bool _showBreakfastAlert = true;
+  bool _breakfastCollected = false;
 
-  void _showNotificationAlert() {
-    showDialog(
+  void _showBreakfastModalSheet(BuildContext context) {
+    showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder:
-          (context) => AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
+          (context) => Container(
+            height: MediaQuery.of(context).size.height * 0.65,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(32),
+                topRight: Radius.circular(32),
+              ),
             ),
-            title: const Row(
+            child: Column(
               children: [
-                Icon(
-                  Icons.notifications_active_rounded,
-                  color: AppColors.primaryBlue,
+                const SizedBox(height: 12),
+                Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
-                SizedBox(width: 12),
-                Text(
-                  '¡Recordatorio!',
-                  style: TextStyle(fontWeight: FontWeight.w900),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Row(
+                        children: [
+                          Icon(
+                            Icons.free_breakfast_rounded,
+                            color: AppColors.primaryBlue,
+                            size: 26,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'Retiro de Desayuno',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w900,
+                              color: AppColors.textMain,
+                            ),
+                          ),
+                        ],
+                      ),
+                      IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(Icons.close),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 6),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  child: Text(
+                    'Muestra este código QR en la barra o casino para retirar tu desayuno.',
+                    style: TextStyle(
+                      color: AppColors.textSecondary,
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                            setState(() {
+                              _showBreakfastAlert = false;
+                              _breakfastCollected = true;
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: const Row(
+                                  children: [
+                                    Icon(
+                                      Icons.check_circle_rounded,
+                                      color: Colors.white,
+                                    ),
+                                    SizedBox(width: 12),
+                                    Text(
+                                      'Desayuno cobrado',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                backgroundColor: Colors.green.shade600,
+                                behavior: SnackBarBehavior.floating,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                margin: const EdgeInsets.all(16),
+                                duration: const Duration(seconds: 4),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(24),
+                              border: Border.all(
+                                color: AppColors.primaryBlue.withOpacity(0.2),
+                                width: 2,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.primaryBlue.withOpacity(
+                                    0.08,
+                                  ),
+                                  blurRadius: 16,
+                                  offset: const Offset(0, 6),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: Image.asset(
+                                    'assets/images/qr.png',
+                                    height: 170,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.touch_app_rounded,
+                                      size: 16,
+                                      color: AppColors.primaryBlue,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      'Toca el QR para cobrar',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.primaryBlue,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        // Generic Code beneath QR
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 14,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.background,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: AppColors.border),
+                          ),
+                          child: Column(
+                            children: [
+                              const Text(
+                                'CÓDIGO DE VALIDACIÓN',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w800,
+                                  color: AppColors.textTertiary,
+                                  letterSpacing: 1.0,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              SelectableText(
+                                'DES-8492-2026',
+                                style: const TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w900,
+                                  letterSpacing: 2.0,
+                                  color: AppColors.primaryBlue,
+                                  fontFamily: 'monospace',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
-            content: const Text(
-              'Te enviaremos una notificación cuando se acerque la fecha límite de revalidación.',
-              style: TextStyle(color: AppColors.textSecondary, height: 1.5),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text(
-                  'ENTENDIDO',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.primaryBlue,
-                  ),
-                ),
-              ),
-            ],
           ),
     );
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -108,96 +287,135 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 24),
 
-            // Warning Banner (Closable)
-            if (_showWarning)
+            // Breakfast Banner Alert
+            if (_showBreakfastAlert)
               Container(
                 margin: const EdgeInsets.only(bottom: 24),
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: AppColors.tertiaryYellow.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: AppColors.tertiaryYellow.withOpacity(0.3),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () => _showBreakfastModalSheet(context),
+                    borderRadius: BorderRadius.circular(16),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 16,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFFFF7E5F), Color(0xFFFF9966)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFFF7E5F).withOpacity(0.35),
+                            blurRadius: 12,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.25),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.free_breakfast_rounded,
+                              color: Colors.white,
+                              size: 24,
+                            ),
+                          ),
+                          const SizedBox(width: 14),
+                          const Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '¡Beneficio Disponible!',
+                                  style: TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                                SizedBox(height: 2),
+                                Text(
+                                  'Ve por tu desayuno',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: Colors.white,
+                            size: 18,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-                child: Column(
+              ),
+
+            if (_breakfastCollected)
+              Container(
+                margin: const EdgeInsets.only(bottom: 24),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 14,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFECFDF5),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFFA7F3D0)),
+                ),
+                child: Row(
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Icon(
-                          Icons.warning_amber_rounded,
-                          color: AppColors.tertiaryYellow,
-                          size: 28,
-                        ),
-                        const SizedBox(width: 12),
-                        const Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Revalidación TNE 2026',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 15,
-                                  color: Color(0xFF856404),
-                                ),
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                'Recuerda revalidar tu tarjeta antes del 31 de mayo para no perder tu beneficio tarifario.',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Color(0xFF856404),
-                                  height: 1.4,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          constraints: const BoxConstraints(),
-                          icon: const Icon(
-                            Icons.close,
-                            size: 18,
-                            color: Color(0xFF856404),
-                          ),
-                          onPressed: () => setState(() => _showWarning = false),
-                        ),
-                      ],
+                    const Icon(
+                      Icons.check_circle_rounded,
+                      color: Color(0xFF059669),
+                      size: 24,
                     ),
-                    const SizedBox(height: 12),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton.icon(
-                          onPressed: _showNotificationAlert,
-                          icon: const Icon(
-                            Icons.notifications_none_rounded,
-                            size: 16,
-                          ),
-                          label: const Text(
-                            'Recordarme',
+                    const SizedBox(width: 12),
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Desayuno cobrado',
                             style: TextStyle(
+                              color: Color(0xFF065F46),
+                              fontSize: 15,
                               fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                          SizedBox(height: 2),
+                          Text(
+                            'Has retirado con éxito tu beneficio de hoy.',
+                            style: TextStyle(
+                              color: Color(0xFF047857),
                               fontSize: 12,
                             ),
                           ),
-                          style: TextButton.styleFrom(
-                            foregroundColor: const Color(0xFF856404),
-                            backgroundColor: Colors.white.withOpacity(0.5),
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
+
+
 
             // TNE Digital Card
             Container(
@@ -273,7 +491,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            'Saldo Bip!',
+                            'Saldo TNE',
                             style: TextStyle(
                               color: Colors.white70,
                               fontSize: 14,

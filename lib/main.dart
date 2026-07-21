@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tneapp/config/router/app_router.dart';
 import 'package:tneapp/config/theme/app_theme.dart';
 import 'package:tneapp/presentation/bloc/app_bloc/app_bloc.dart';
+import 'package:tneapp/presentation/bloc/establishment/establishment_auth_bloc.dart';
+import 'package:tneapp/presentation/bloc/establishment/establishment_delivery_bloc.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +26,8 @@ class AppStateProvider extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => AppBloc()),
+        BlocProvider(create: (_) => EstablishmentAuthBloc()..add(CheckAuthStatus())),
+        BlocProvider(create: (_) => EstablishmentDeliveryBloc()),
       ],
       child: const MainApp(),
     );
