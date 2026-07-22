@@ -40,7 +40,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'TNE Digital',
+      title: 'Junaeb App',
       debugShowCheckedModeBanner: false,
       routerConfig: appRouter,
       theme: AppTheme().getThemeData(),

@@ -3,4 +3,7 @@ class ApiConfig {
   static const String fallbackBaseUrl = 'http://localhost:8541/api';
 
   static String baseUrl = defaultBaseUrl;
+
+  /// Flag para activar o desactivar el modo simulación (demo sin conexión backend).
+  static bool isSimulationMode = true;
 }

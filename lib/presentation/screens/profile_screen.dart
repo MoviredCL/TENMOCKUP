@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tneapp/config/constants/colores.dart';
+import 'package:tneapp/presentation/widgets/student_qr_dialog.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -28,7 +29,7 @@ class ProfileScreen extends StatelessWidget {
             indicatorWeight: 3,
             labelColor: AppColors.primaryBlue,
             unselectedLabelColor: AppColors.textTertiary,
-            labelStyle: TextStyle(fontWeight: FontWeight.w900, fontSize: 13, letterSpacing: 0.5),
+            labelStyle: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13, letterSpacing: 0.5),
             tabs: [
               const Tab(text: "MI INFORMACIÓN", icon: Icon(Icons.person_outline, size: 20)),
               Tab(
@@ -75,45 +76,48 @@ class ProfileScreen extends StatelessWidget {
           Center(
             child: Column(
               children: [
-                Stack(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: AppColors.primaryBlue.withOpacity(0.1),
-                          width: 2,
+                GestureDetector(
+                  onTap: () => StudentQrDialog.show(context),
+                  child: Stack(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: AppColors.primaryBlue.withOpacity(0.1),
+                            width: 2,
+                          ),
                         ),
-                      ),
-                        child: CircleAvatar(
+                        child: const CircleAvatar(
                           radius: 54,
-                          backgroundImage: const AssetImage('assets/images/user_profile.png'),
+                          backgroundImage: AssetImage('assets/images/user_profile.png'),
                           backgroundColor: AppColors.background,
                         ),
-                    ),
-                    Positioned(
-                      bottom: 4,
-                      right: 4,
-                      child: Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                          color: AppColors.secondaryRed,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 2),
-                        ),
-                        child: const Icon(
-                          Icons.edit_rounded,
-                          size: 16,
-                          color: Colors.white,
+                      ),
+                      Positioned(
+                        bottom: 4,
+                        right: 4,
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF6B21A8),
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 2),
+                          ),
+                          child: const Icon(
+                            Icons.qr_code_rounded,
+                            size: 16,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 20),
                 const Text(
-                  "Camila Andrea Espinoza Alfaro",
+                  "Camila Fuentes Díaz",
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w900,
@@ -121,19 +125,44 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 const Text(
-                  "camila.espinoza@correo.cl",
+                  "33333333-3",
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
                     color: AppColors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                OutlinedButton.icon(
+                  onPressed: () => StudentQrDialog.show(context),
+                  icon: const Icon(Icons.qr_code_2_rounded, size: 20, color: Color(0xFF6B21A8)),
+                  label: const Text(
+                    "MI CÓDIGO QR ESTUDIANTE",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 0.5,
+                      color: Color(0xFF6B21A8),
+                      fontSize: 13,
+                    ),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    side: const BorderSide(color: Color(0xFF6B21A8), width: 1.5),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 32),
 
-          _buildSectionTitle("Cuenta y Seguridad"),
+          _buildSectionTitle("Identificación y Cuenta"),
           _buildSettingsGroup([
+            _buildSettingsTile(
+              icon: Icons.qr_code_rounded,
+              label: "Código QR Estudiante (PGQP4XYU)",
+              onTap: () => StudentQrDialog.show(context),
+            ),
             _buildSettingsTile(
               icon: Icons.person_outline,
               label: "Mis Datos Personales",

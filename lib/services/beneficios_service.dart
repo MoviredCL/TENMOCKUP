@@ -6,9 +6,15 @@ import '../models/entrega.dart';
 import '../models/api_exception.dart';
 import 'api_config.dart';
 import 'auth_service.dart';
+import 'simulated_http_client.dart';
 
 class BeneficiosService {
-  final AuthService _authService = AuthService();
+  final AuthService _authService;
+  final http.Client _client;
+
+  BeneficiosService({AuthService? authService, http.Client? client})
+      : _authService = authService ?? AuthService(),
+        _client = client ?? SimulatedHttpClient.instance;
 
   Future<Map<String, String>> _getHeaders() async {
     final token = await _authService.getToken();
@@ -25,7 +31,7 @@ class BeneficiosService {
     final headers = await _getHeaders();
     final url = Uri.parse('${ApiConfig.baseUrl}/beneficios');
 
-    final response = await http.get(url, headers: headers);
+    final response = await _client.get(url, headers: headers);
     final body = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
@@ -45,7 +51,7 @@ class BeneficiosService {
     final headers = await _getHeaders();
     final url = Uri.parse('${ApiConfig.baseUrl}/alumnos?q=${Uri.encodeComponent(query)}');
 
-    final response = await http.get(url, headers: headers);
+    final response = await _client.get(url, headers: headers);
     final body = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
@@ -75,7 +81,7 @@ class BeneficiosService {
       if (curso != null && curso.isNotEmpty) 'curso': curso.trim(),
     };
 
-    final response = await http.post(
+    final response = await _client.post(
       url,
       headers: headers,
       body: jsonEncode(payload),
@@ -119,7 +125,7 @@ class BeneficiosService {
       codigo: codigo,
     );
 
-    final response = await http.post(
+    final response = await _client.post(
       url,
       headers: headers,
       body: jsonEncode(request.toJson()),

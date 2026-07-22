@@ -4,10 +4,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/auth_user.dart';
 import '../models/api_exception.dart';
 import 'api_config.dart';
+import 'simulated_http_client.dart';
 
 class AuthService {
   static const String _tokenKey = 'establishment_access_token';
   static const String _userKey = 'establishment_user_json';
+
+  final http.Client _client;
+
+  AuthService({http.Client? client}) : _client = client ?? SimulatedHttpClient.instance;
 
   Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
@@ -40,7 +45,7 @@ class AuthService {
   Future<AuthResponse> login(String email, String password) async {
     final url = Uri.parse('${ApiConfig.baseUrl}/auth/login');
     try {
-      final response = await http.post(
+      final response = await _client.post(
         url,
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
@@ -79,7 +84,7 @@ class AuthService {
 
     final url = Uri.parse('${ApiConfig.baseUrl}/auth/me');
     try {
-      final response = await http.get(
+      final response = await _client.get(
         url,
         headers: {
           'Content-Type': 'application/json',
@@ -108,7 +113,7 @@ class AuthService {
     if (token != null) {
       final url = Uri.parse('${ApiConfig.baseUrl}/auth/logout');
       try {
-        await http.post(
+        await _client.post(
           url,
           headers: {
             'Content-Type': 'application/json',
